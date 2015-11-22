@@ -37,6 +37,7 @@ test-suite eloima-test
                      , eloima -any
                      , hspec    ==2.*
                      , QuickCheck
+                     , bytestring
   ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
