@@ -35,20 +35,19 @@ instance ToJSON TimePos where
   toJSON (TimePos time pos) = object [ "time" .= time,
                                        "pos" .= pos ]
 
-data Actor = Actor { id :: Int, pos :: Coord }
+data Actor = Actor { id :: Int, lastMove :: Move }
              deriving (Show, Eq)
 
 instance ToJSON Actor where
-  toJSON (Actor id pos) = object [ "id" .= id,
-                                   "pos" .= pos ]
+  toJSON (Actor id move) = object [ "id"       .= id,
+                                    "lastMove" .= move ]
 
-data Move = Move { actorId :: Int, from :: TimePos, to :: TimePos }
+data Move = Move { from :: TimePos, to :: TimePos }
             deriving (Show, Eq)
 
 instance ToJSON Move where
-  toJSON (Move id from to) = object [ "actor" .= id,
-                                      "from"  .= from,
-                                      "to"    .= to ]
+  toJSON (Move from to) = object [ "from" .= from,
+                                   "to"   .= to ]
 
 -- A FromJSON instance allows us to decode a value from JSON.  This
 -- should match the format used by the ToJSON instance.
@@ -62,7 +61,7 @@ instance FromJSON Coord where
 instance FromJSON Actor where
   parseJSON (Object a) = Actor <$>
                          a .: "id" <*>
-                         a .: "pos"
+                         a .: "lastMove"
   parseJSON _          = empty
 
 instance FromJSON TimePos where
@@ -73,7 +72,6 @@ instance FromJSON TimePos where
 
 instance FromJSON Move where
   parseJSON (Object m) = Move <$>
-                         m .: "actor" <*>
                          m .: "from" <*>
                          m .: "to"
   parseJSON _          = empty
