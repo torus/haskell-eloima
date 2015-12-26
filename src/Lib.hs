@@ -4,8 +4,11 @@ module Lib
     ( someFunc
     , aesonTest
     , decodeCoord
+    , encodeCoord
     , decodeActor
+    , encodeActor
     , decodeMove
+    , encodeMove
     , Coord(Coord)
     , Actor(Actor)
     , TimePos(TimePos)
@@ -30,7 +33,7 @@ data TimePos = TimePos { time :: Double, position :: Coord }
 
 instance ToJSON TimePos where
   toJSON (TimePos time pos) = object [ "time" .= time,
-                                       "y" .= pos ]
+                                       "pos" .= pos ]
 
 data Actor = Actor { id :: Int, pos :: Coord }
              deriving (Show, Eq)
@@ -43,9 +46,9 @@ data Move = Move { actorId :: Int, from :: TimePos, to :: TimePos }
             deriving (Show, Eq)
 
 instance ToJSON Move where
-  toJSON (Move id from to) = object [ "id" .= id,
-                                      "from" .= from,
-                                      "to"   .= to]
+  toJSON (Move id from to) = object [ "actor" .= id,
+                                      "from"  .= from,
+                                      "to"    .= to ]
 
 -- A FromJSON instance allows us to decode a value from JSON.  This
 -- should match the format used by the ToJSON instance.
@@ -81,11 +84,20 @@ someFunc = putStrLn "someFunc"
 decodeCoord :: BL.ByteString -> Maybe Coord
 decodeCoord = decode
 
+encodeCoord :: Coord -> BL.ByteString
+encodeCoord = encode
+
 decodeActor :: BL.ByteString -> Maybe Actor
 decodeActor = decode
 
+encodeActor :: Actor -> BL.ByteString
+encodeActor = encode
+
 decodeMove :: BL.ByteString -> Maybe Move
 decodeMove = decode
+
+encodeMove :: Move -> BL.ByteString
+encodeMove = encode
 
 aesonTest :: IO ()
 aesonTest = do
