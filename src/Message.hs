@@ -1,8 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Lib
+module Message
     ( someFunc
-    , aesonTest
     , decodeCoord
     , encodeCoord
     , decodeActor
@@ -96,10 +95,3 @@ decodeMove = decode
 
 encodeMove :: Move -> BL.ByteString
 encodeMove = encode
-
-aesonTest :: IO ()
-aesonTest = do
-  let req = decode "{\"x\":3.0,\"y\":-1.0}" :: Maybe Coord
-  print req
-  let reply = Coord 123.4 20
-  BL.putStrLn (encode reply)
