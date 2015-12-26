@@ -33,7 +33,7 @@ data TimePos = TimePos { time :: Double, position :: Coord }
 
 instance ToJSON TimePos where
   toJSON (TimePos time pos) = object [ "time" .= time,
-                                       "pos" .= pos ]
+                                       "pos"  .= pos ]
 
 data Actor = Actor { id :: Int, lastMove :: Move }
              deriving (Show, Eq)

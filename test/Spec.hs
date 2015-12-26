@@ -57,4 +57,4 @@ main = hspec $ do
     it "encodes move" $
        encodeMove (Move (TimePos 1234567890 (Coord 1.0 2.0))
                         (TimePos 1234767891 (Coord 2.0 2.0)))
-                   `shouldBe` BL.pack "{\"to\":{\"time\":1234767891,\"pos\":{\"x\":2,\"y\":2}},\"from\":{\"time\":1234567890,\"pos\":{\"x\":1,\"y\":2}}}"
+                  `shouldBe` BL.pack "{\"to\":{\"time\":1234767891,\"pos\":{\"x\":2,\"y\":2}},\"from\":{\"time\":1234567890,\"pos\":{\"x\":1,\"y\":2}}}"
