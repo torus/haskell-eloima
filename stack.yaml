@@ -1,5 +1,5 @@
 flags: {}
 packages:
 - '.'
-extra-deps: []
-resolver: lts-3.5
+extra-deps: [aeson-0.11.1.0]
+resolver: lts-5.5

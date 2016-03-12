@@ -1,6 +1,6 @@
 module Main where
 
-import Message
+import MessageLoop
 
 main :: IO ()
-main = someFunc
+main = loop

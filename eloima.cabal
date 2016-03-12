@@ -15,10 +15,13 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Message
+  exposed-modules:     Message, MessageLoop
   build-depends:       base >=4.7 && < 5
                      , aeson
                      , bytestring
+                     , transformers
+                     , text
+                     , websockets
   default-language:    Haskell2010
 
 executable eloima-exe

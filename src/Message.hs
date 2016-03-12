@@ -1,8 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module Message
-    ( someFunc
-    , decodeCoord
+    ( decodeCoord
     , encodeCoord
     , decodeActor
     , encodeActor
@@ -14,39 +14,36 @@ module Message
     , Move(Move)
     ) where
 
+import GHC.Generics
 import Control.Applicative ((<$>), (<*>), empty)
 import Data.Aeson
 import qualified Data.ByteString.Lazy.Char8 as BL
 
 data Coord = Coord { x :: Double, y :: Double }
-             deriving (Show, Eq)
+             deriving (Show, Eq, Generic)
 
 -- A ToJSON instance allows us to encode a value as JSON.
 
 instance ToJSON Coord where
-  toJSON (Coord xV yV) = object [ "x" .= xV,
-                                  "y" .= yV ]
+  toEncoding = genericToEncoding defaultOptions
 
-data TimePos = TimePos { time :: Double, position :: Coord }
-               deriving (Show, Eq)
+data TimePos = TimePos { time :: Double, pos :: Coord }
+               deriving (Show, Eq, Generic)
 
 instance ToJSON TimePos where
-  toJSON (TimePos time pos) = object [ "time" .= time,
-                                       "pos"  .= pos ]
+  toEncoding = genericToEncoding defaultOptions
 
 data Actor = Actor { id :: Int, lastMove :: Move }
-             deriving (Show, Eq)
+             deriving (Show, Eq, Generic)
 
 instance ToJSON Actor where
-  toJSON (Actor id move) = object [ "id"       .= id,
-                                    "lastMove" .= move ]
+  toEncoding = genericToEncoding defaultOptions
 
 data Move = Move { from :: TimePos, to :: TimePos }
-            deriving (Show, Eq)
+            deriving (Show, Eq, Generic)
 
 instance ToJSON Move where
-  toJSON (Move from to) = object [ "from" .= from,
-                                   "to"   .= to ]
+  toEncoding = genericToEncoding defaultOptions
 
 -- A FromJSON instance allows us to decode a value from JSON.  This
 -- should match the format used by the ToJSON instance.
@@ -74,9 +71,6 @@ instance FromJSON Move where
                          m .: "from" <*>
                          m .: "to"
   parseJSON _          = empty
-
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
 
 decodeCoord :: BL.ByteString -> Maybe Coord
 decodeCoord = decode
